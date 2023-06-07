@@ -21,10 +21,10 @@ def lambda_handler(event, context):
 
  
     try:
-        print('此图像在 DynamoDB 中存在', response['Item']['s3-url'])
+        print('This image exists in the DynamoDB', response['Item']['s3-url'])
         itemIsExisted = True
     except:
-        print('此图像不存在在 DynamoDB 中')
+        print('This image does not exist in the DynamoDB')
         itemIsExisted = False
 
     # 调用 delete_item 方法从 DynamoDB 中删除此项
@@ -34,9 +34,9 @@ def lambda_handler(event, context):
                 's3-url': userURL
             }
         )
-        print("已删除该项")
+        print("Item is deleted")
     else:
-        print("未删除任何项")
+        print("No item is deleted")
 
 
     # 遍历 S3 存储桶中的所有对象
@@ -50,4 +50,4 @@ def lambda_handler(event, context):
         if userURL == imageInS3:
             s3.Object(bucket, s3_key).delete()
         else:
-            print("用户的查询与此图像不匹配。")
+            print("User's query does not match this image.")
